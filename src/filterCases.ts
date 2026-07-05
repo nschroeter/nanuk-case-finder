@@ -2,14 +2,20 @@ import type { NanukCase, GearDimensions, Unit } from './types'
 
 export function filterAndSort(
   cases: NanukCase[],
-  gear: GearDimensions,
+  gearInterior: GearDimensions,
+  maxExterior: GearDimensions,
   unit: Unit,
 ): NanukCase[] {
-  const length = parseFloat(gear.length)
-  const width = parseFloat(gear.width)
-  const height = parseFloat(gear.height)
+  const iLength = parseFloat(gearInterior.length)
+  const iWidth = parseFloat(gearInterior.width)
+  const iHeight = parseFloat(gearInterior.height)
+  const eLength = parseFloat(maxExterior.length)
+  const eWidth = parseFloat(maxExterior.width)
+  const eHeight = parseFloat(maxExterior.height)
 
-  const hasInput = !isNaN(length) || !isNaN(width) || !isNaN(height)
+  const hasInput =
+    !isNaN(iLength) || !isNaN(iWidth) || !isNaN(iHeight) ||
+    !isNaN(eLength) || !isNaN(eWidth) || !isNaN(eHeight)
 
   if (!hasInput) {
     return [...cases].sort((a, b) => a.model.localeCompare(b.model))
@@ -18,9 +24,13 @@ export function filterAndSort(
   return cases
     .filter(c => {
       const interior = c.interior[unit]
-      if (!isNaN(length) && interior.length < length) return false
-      if (!isNaN(width) && interior.width < width) return false
-      if (!isNaN(height) && interior.height < height) return false
+      const exterior = c.exterior[unit]
+      if (!isNaN(iLength) && interior.length < iLength) return false
+      if (!isNaN(iWidth) && interior.width < iWidth) return false
+      if (!isNaN(iHeight) && interior.height < iHeight) return false
+      if (!isNaN(eLength) && exterior.length > eLength) return false
+      if (!isNaN(eWidth) && exterior.width > eWidth) return false
+      if (!isNaN(eHeight) && exterior.height > eHeight) return false
       return true
     })
     .sort((a, b) => {

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Container, Divider, Stack, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Button, Checkbox, Container, Divider, FormControlLabel, Stack, Typography } from '@mui/material'
 import { useNanukCases } from './useNanukCases'
 import { filterAndSort } from './filterCases'
 import UnitToggle from './components/UnitToggle'
@@ -9,12 +9,30 @@ import type { GearDimensions, Unit } from './types'
 
 const emptyDimensions: GearDimensions = { length: '', width: '', height: '' }
 
+function useDebounce<T>(value: T, delay: number): T {
+  const [debounced, setDebounced] = useState(value)
+  useEffect(() => {
+    const id = setTimeout(() => setDebounced(value), delay)
+    return () => clearTimeout(id)
+  }, [value, delay])
+  return debounced
+}
+
 export default function App() {
   const allCases = useNanukCases()
   const [unit, setUnit] = useState<Unit>('mm')
-  const [gear, setGear] = useState<GearDimensions>(emptyDimensions)
+  const [gearInterior, setGearInterior] = useState<GearDimensions>(emptyDimensions)
+  const [maxExterior, setMaxExterior] = useState<GearDimensions>(emptyDimensions)
+  const [showExterior, setShowExterior] = useState(false)
 
-  const visibleCases = filterAndSort(allCases, gear, unit)
+  const debouncedInterior = useDebounce(gearInterior, 300)
+  const debouncedExterior = useDebounce(maxExterior, 300)
+  const visibleCases = filterAndSort(allCases, debouncedInterior, debouncedExterior, unit)
+
+  function reset() {
+    setGearInterior(emptyDimensions)
+    setMaxExterior(emptyDimensions)
+  }
 
   return (
     <Container maxWidth="xl" className="py-8">
@@ -27,7 +45,20 @@ export default function App() {
 
       <Stack spacing={3} className="mt-6">
         <UnitToggle unit={unit} onChange={setUnit} />
-        <DimensionInput dimensions={gear} unit={unit} onChange={setGear} />
+        <div>
+          <Typography variant="caption" color="text.secondary">Min. interior</Typography>
+          <DimensionInput dimensions={gearInterior} unit={unit} onChange={setGearInterior} />
+        </div>
+        <div>
+          <FormControlLabel
+            control={<Checkbox checked={showExterior} onChange={e => { setShowExterior(e.target.checked); if (!e.target.checked) setMaxExterior(emptyDimensions) }} size="small" />}
+            label={<Typography variant="caption" color="text.secondary">Filter by max. exterior</Typography>}
+          />
+          {showExterior && <DimensionInput dimensions={maxExterior} unit={unit} onChange={setMaxExterior} />}
+        </div>
+        <Button variant="outlined" size="small" onClick={reset} sx={{ alignSelf: 'flex-start' }}>
+          Reset
+        </Button>
       </Stack>
 
       <Divider className="mt-6" />
