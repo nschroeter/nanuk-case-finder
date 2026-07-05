@@ -29,6 +29,12 @@ export default function App() {
   const debouncedExterior = useDebounce(maxExterior, 300)
   const visibleCases = filterAndSort(allCases, debouncedInterior, debouncedExterior, unit)
 
+  function handleUnitChange(newUnit: Unit) {
+    setGearInterior(emptyDimensions)
+    setMaxExterior(emptyDimensions)
+    setUnit(newUnit)
+  }
+
   function reset() {
     setGearInterior(emptyDimensions)
     setMaxExterior(emptyDimensions)
@@ -44,7 +50,7 @@ export default function App() {
       </Typography>
 
       <Stack spacing={3} className="mt-6">
-        <UnitToggle unit={unit} onChange={setUnit} />
+        <UnitToggle unit={unit} onChange={handleUnitChange} />
         <div>
           <Typography variant="caption" color="text.secondary">Min. interior</Typography>
           <DimensionInput dimensions={gearInterior} unit={unit} onChange={setGearInterior} />

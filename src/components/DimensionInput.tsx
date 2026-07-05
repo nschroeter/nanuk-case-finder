@@ -1,4 +1,5 @@
-import { Stack, TextField } from '@mui/material'
+import { IconButton, InputAdornment, Stack, TextField } from '@mui/material'
+import ClearIcon from '@mui/icons-material/Clear'
 import type { GearDimensions, Unit } from '../types'
 
 interface Props {
@@ -19,7 +20,18 @@ export default function DimensionInput({ dimensions, unit, onChange }: Props) {
           type="number"
           value={dimensions[field]}
           onChange={e => onChange({ ...dimensions, [field]: e.target.value })}
-          slotProps={{ htmlInput: { min: 0 } }}
+          slotProps={{
+            htmlInput: { min: 0 },
+            input: dimensions[field] ? {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton size="small" onClick={() => onChange({ ...dimensions, [field]: '' })}>
+                    <ClearIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            } : {},
+          }}
           placeholder="—"
           size="small"
           fullWidth
