@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Checkbox, Container, Divider, FormControlLabel, Stack, Typography } from '@mui/material'
+import { Button, Checkbox, Container, FormControlLabel, Stack, Typography } from '@mui/material'
 import { useNanukCases } from './useNanukCases'
 import { filterAndSort } from './filterCases'
 import UnitToggle from './components/UnitToggle'
@@ -61,7 +61,6 @@ export default function App() {
         </Button>
       </Stack>
 
-      <Divider className="mt-6" />
 
       <NanukCaseTable cases={visibleCases} unit={unit} />
     </Container>
