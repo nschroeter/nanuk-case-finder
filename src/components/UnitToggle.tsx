@@ -1,4 +1,5 @@
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
+import { Trans } from '@lingui/react/macro'
 import type { Unit } from '../types'
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 export default function UnitToggle({ unit, onChange }: Props) {
   return (
     <FormControl>
-      <FormLabel>Unit</FormLabel>
+      <FormLabel><Trans>Unit</Trans></FormLabel>
       <RadioGroup
         row
         value={unit}

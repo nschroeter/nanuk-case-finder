@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Button, Checkbox, Container, FormControlLabel, Stack, Typography } from '@mui/material'
+import { Button, Checkbox, Container, FormControlLabel, MenuItem, Select, Stack, Typography } from '@mui/material'
+import { Trans } from '@lingui/react/macro'
 import { useNanukCases } from './useNanukCases'
 import { filterAndSort } from './filterCases'
+import { loadCatalog, localeLabels, type Locale } from './i18n'
 import UnitToggle from './components/UnitToggle'
 import DimensionInput from './components/DimensionInput'
 import NanukCaseTable from './components/NanukCaseTable'
@@ -21,6 +23,7 @@ function useDebounce<T>(value: T, delay: number): T {
 export default function App() {
   const allCases = useNanukCases()
   const [unit, setUnit] = useState<Unit>('mm')
+  const [locale, setLocale] = useState<Locale>('en')
   const [gearInterior, setGearInterior] = useState<GearDimensions>(emptyDimensions)
   const [maxExterior, setMaxExterior] = useState<GearDimensions>(emptyDimensions)
   const [showExterior, setShowExterior] = useState(false)
@@ -35,6 +38,11 @@ export default function App() {
     setUnit(newUnit)
   }
 
+  async function handleLocaleChange(newLocale: Locale) {
+    await loadCatalog(newLocale)
+    setLocale(newLocale)
+  }
+
   function reset() {
     setGearInterior(emptyDimensions)
     setMaxExterior(emptyDimensions)
@@ -42,31 +50,46 @@ export default function App() {
 
   return (
     <Container maxWidth="xl" className="py-8">
-      <Typography variant="h4" sx={{ fontWeight: 'bold' }} gutterBottom>
-        NANUK Case Finder
-      </Typography>
-      <Typography variant="body2" color="text.secondary" gutterBottom>
-        Enter your gear dimensions to find the best fitting NANUK case.
-      </Typography>
+      <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div>
+          <Typography variant="h4" sx={{ fontWeight: 'bold' }} gutterBottom>
+            NANUK Case Finder
+          </Typography>
+          <Typography variant="body2" color="text.secondary" gutterBottom>
+            <Trans>Enter your gear dimensions to find the best fitting NANUK case.</Trans>
+          </Typography>
+        </div>
+        <Select
+          value={locale}
+          onChange={e => handleLocaleChange(e.target.value as Locale)}
+          size="small"
+          sx={{ minWidth: 120 }}
+        >
+          {(Object.entries(localeLabels) as [Locale, string][]).map(([value, label]) => (
+            <MenuItem key={value} value={value}>{label}</MenuItem>
+          ))}
+        </Select>
+      </Stack>
 
       <Stack spacing={3} className="mt-6">
         <UnitToggle unit={unit} onChange={handleUnitChange} />
         <div>
-          <Typography variant="caption" color="text.secondary">Min. interior</Typography>
+          <Typography variant="caption" color="text.secondary">
+            <Trans>Min. interior</Trans>
+          </Typography>
           <DimensionInput dimensions={gearInterior} unit={unit} onChange={setGearInterior} />
         </div>
         <div>
           <FormControlLabel
             control={<Checkbox checked={showExterior} onChange={e => { setShowExterior(e.target.checked); if (!e.target.checked) setMaxExterior(emptyDimensions) }} size="small" />}
-            label={<Typography variant="caption" color="text.secondary">Filter by max. exterior</Typography>}
+            label={<Typography variant="caption" color="text.secondary"><Trans>Filter by max. exterior</Trans></Typography>}
           />
           {showExterior && <DimensionInput dimensions={maxExterior} unit={unit} onChange={setMaxExterior} />}
         </div>
         <Button variant="outlined" size="small" onClick={reset} sx={{ alignSelf: 'flex-start' }}>
-          Reset
+          <Trans>Reset</Trans>
         </Button>
       </Stack>
-
 
       <NanukCaseTable cases={visibleCases} unit={unit} />
     </Container>

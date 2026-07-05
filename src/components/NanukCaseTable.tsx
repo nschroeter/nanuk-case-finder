@@ -8,6 +8,9 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
+import { Trans } from '@lingui/react/macro'
+import { msg } from '@lingui/core/macro'
+import { useLingui } from '@lingui/react'
 import type { NanukCase, Unit } from '../types'
 
 interface Props {
@@ -26,11 +29,18 @@ const subHeaderSx = (i: number) => {
   return bold
 }
 
+const dimLabels = [
+  msg`Length`, msg`Width`, msg`Height`,
+  msg`Length`, msg`Width`, msg`Height`,
+]
+
 export default function NanukCaseTable({ cases, unit }: Props) {
+  const { _ } = useLingui()
+
   if (cases.length === 0) {
     return (
       <Typography color="text.secondary" sx={{ mt: 4 }}>
-        No cases match your dimensions.
+        <Trans>No cases match your dimensions.</Trans>
       </Typography>
     )
   }
@@ -46,15 +56,19 @@ export default function NanukCaseTable({ cases, unit }: Props) {
         </colgroup>
         <TableHead>
           <TableRow>
-            <TableCell rowSpan={2} sx={bold}>Model</TableCell>
-            <TableCell colSpan={3} align="center" sx={{ ...bold, ...groupLeft, ...groupRight }}>Interior ({unit})</TableCell>
-            <TableCell colSpan={3} align="center" sx={{ ...bold, ...groupLeft, ...groupRight }}>Exterior ({unit})</TableCell>
-            <TableCell rowSpan={2} sx={bold}>Volume (L)</TableCell>
-            <TableCell rowSpan={2} sx={bold}>Empty weight ({weightUnit})</TableCell>
+            <TableCell rowSpan={2} sx={bold}><Trans>Model</Trans></TableCell>
+            <TableCell colSpan={3} align="center" sx={{ ...bold, ...groupLeft, ...groupRight }}>
+              {_(msg`Interior`)} ({unit})
+            </TableCell>
+            <TableCell colSpan={3} align="center" sx={{ ...bold, ...groupLeft, ...groupRight }}>
+              {_(msg`Exterior`)} ({unit})
+            </TableCell>
+            <TableCell rowSpan={2} sx={bold}><Trans>Volume (L)</Trans></TableCell>
+            <TableCell rowSpan={2} sx={bold}>{_(msg`Empty weight`)} ({weightUnit})</TableCell>
           </TableRow>
           <TableRow>
-            {['Length', 'Width', 'Height', 'Length', 'Width', 'Height'].map((label, i) => (
-              <TableCell key={i} sx={subHeaderSx(i)}>{label}</TableCell>
+            {dimLabels.map((label, i) => (
+              <TableCell key={i} sx={subHeaderSx(i)}>{_(label)}</TableCell>
             ))}
           </TableRow>
         </TableHead>
