@@ -5,12 +5,12 @@ import { i18n, loadCatalog } from './i18n'
 import './index.css'
 import App from './App.tsx'
 
-loadCatalog('en').then(() => {
-  createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-      <I18nProvider i18n={i18n}>
-        <App />
-      </I18nProvider>
-    </StrictMode>,
-  )
-})
+loadCatalog('en')
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <I18nProvider i18n={i18n}>
+      <App />
+    </I18nProvider>
+  </StrictMode>,
+)

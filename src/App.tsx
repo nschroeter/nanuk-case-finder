@@ -38,8 +38,8 @@ export default function App() {
     setUnit(newUnit)
   }
 
-  async function handleLocaleChange(newLocale: Locale) {
-    await loadCatalog(newLocale)
+  function handleLocaleChange(newLocale: Locale) {
+    loadCatalog(newLocale)
     setLocale(newLocale)
   }
 
