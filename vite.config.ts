@@ -5,5 +5,13 @@ import { lingui } from '@lingui/vite-plugin'
 
 export default defineConfig({
   base: '/nanuk-case-finder/',
-  plugins: [lingui(), tailwindcss(), react()],
+  plugins: [
+    lingui(),
+    tailwindcss(),
+    react({
+      babel: {
+        plugins: ['@lingui/babel-plugin-lingui-macro'],
+      },
+    }),
+  ],
 })
