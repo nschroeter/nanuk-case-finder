@@ -17,7 +17,7 @@ export default function App() {
   const visibleCases = filterAndSort(allCases, gear, unit)
 
   return (
-    <Container maxWidth="lg" className="py-8">
+    <Container maxWidth="xl" className="py-8">
       <Typography variant="h4" sx={{ fontWeight: 'bold' }} gutterBottom>
         NANUK Case Finder
       </Typography>

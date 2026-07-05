@@ -8,12 +8,12 @@ function parseNullable(val: string): number | null {
 
 function parseCsv(text: string): NanukCase[] {
   const [headerLine, ...lines] = text.trim().split('\n')
-  const headers = headerLine.split(',')
+  const headers = headerLine.replace(/\r/, '').split(',')
 
   return lines
     .filter(line => line.trim())
     .map(line => {
-      const vals = line.split(',')
+      const vals = line.replace(/\r/, '').split(',')
       const get = (key: string) => vals[headers.indexOf(key)] ?? ''
 
       return {

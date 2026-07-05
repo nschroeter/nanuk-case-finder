@@ -28,8 +28,8 @@ export default function NanukCaseTable({ cases, unit }: Props) {
   const weightUnit = unit === 'in' ? 'lb' : 'kg'
 
   return (
-    <TableContainer component={Paper} sx={{ mt: 4 }}>
-      <Table size="small">
+    <TableContainer component={Paper} sx={{ mt: 4, overflowX: 'auto' }}>
+      <Table size="small" sx={{ minWidth: 'max-content' }}>
         <TableHead>
           <TableRow>
             {[
