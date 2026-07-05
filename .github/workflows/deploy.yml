@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --config.minimum-release-age=0
+      - run: pnpm install
       - run: pnpm build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
