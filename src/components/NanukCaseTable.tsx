@@ -15,7 +15,7 @@ interface Props {
   unit: Unit
 }
 
-const colWidths = [180, 120, 120, 120, 120, 120, 120, 100, 100]
+const colWidths = [180, 120, 120, 120, 120, 120, 120, 100, 160]
 const bold = { fontWeight: 'bold' }
 const groupLeft = { borderLeft: '2px solid !important', borderLeftColor: 'grey.500 !important' }
 const groupRight = { borderRight: '2px solid !important', borderRightColor: 'grey.500 !important' }
@@ -50,7 +50,7 @@ export default function NanukCaseTable({ cases, unit }: Props) {
             <TableCell colSpan={3} align="center" sx={{ ...bold, ...groupLeft, ...groupRight }}>Interior ({unit})</TableCell>
             <TableCell colSpan={3} align="center" sx={{ ...bold, ...groupLeft, ...groupRight }}>Exterior ({unit})</TableCell>
             <TableCell rowSpan={2} sx={bold}>Volume (L)</TableCell>
-            <TableCell rowSpan={2} sx={bold}>Weight ({weightUnit})</TableCell>
+            <TableCell rowSpan={2} sx={bold}>Empty weight ({weightUnit})</TableCell>
           </TableRow>
           <TableRow>
             {['Length', 'Width', 'Height', 'Length', 'Width', 'Height'].map((label, i) => (
