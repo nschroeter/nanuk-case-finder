@@ -53,7 +53,7 @@ export function useNanukCases() {
   const [cases, setCases] = useState<NanukCase[]>([])
 
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}nanuk_cases_4.csv`)
+    fetch(`${import.meta.env.BASE_URL}nanuk_cases.csv`)
       .then(r => r.text())
       .then(text => setCases(parseCsv(text)))
   }, [])
