@@ -84,7 +84,9 @@ export default function App() {
             control={<Checkbox checked={showExterior} onChange={e => { setShowExterior(e.target.checked); if (!e.target.checked) setMaxExterior(emptyDimensions) }} size="small" />}
             label={<Typography variant="caption" color="text.secondary"><Trans>Filter by max. exterior</Trans></Typography>}
           />
-          {showExterior && <DimensionInput dimensions={maxExterior} unit={unit} onChange={setMaxExterior} />}
+          <div style={{ visibility: showExterior ? 'visible' : 'hidden' }}>
+            <DimensionInput dimensions={maxExterior} unit={unit} onChange={setMaxExterior} />
+          </div>
         </div>
         <Button variant="outlined" size="small" onClick={reset} sx={{ alignSelf: 'flex-start' }}>
           <Trans>Reset</Trans>
