@@ -8,11 +8,11 @@ import { messages as it } from './locales/it/messages'
 export type Locale = 'en' | 'de' | 'fr' | 'es' | 'it'
 
 export const localeLabels: Record<Locale, string> = {
-  en: 'English',
-  de: 'Deutsch',
-  fr: 'Français',
-  es: 'Español',
-  it: 'Italiano',
+  en: '🇬🇧 English',
+  de: '🇩🇪 Deutsch',
+  fr: '🇫🇷 Français',
+  es: '🇪🇸 Español',
+  it: '🇮🇹 Italiano',
 }
 
 const catalogs = { en, de, fr, es, it }
