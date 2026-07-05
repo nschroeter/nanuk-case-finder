@@ -34,7 +34,7 @@ const dimLabels = [
   msg`Length`, msg`Width`, msg`Height`,
 ]
 
-export default function NanukCaseTable({ cases, unit }: Props) {
+export default function NanukCaseTable({ cases, unit }: Readonly<Props>) {
   const { _ } = useLingui()
 
   if (cases.length === 0) {

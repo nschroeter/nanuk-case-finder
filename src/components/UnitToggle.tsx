@@ -7,7 +7,7 @@ interface Props {
   onChange: (unit: Unit) => void
 }
 
-export default function UnitToggle({ unit, onChange }: Props) {
+export default function UnitToggle({ unit, onChange }: Readonly<Props>) {
   return (
     <FormControl>
       <FormLabel><Trans>Unit</Trans></FormLabel>

@@ -18,7 +18,7 @@ const fieldMsgs = {
   height: msg`Height`,
 }
 
-export default function DimensionInput({ dimensions, unit, onChange }: Props) {
+export default function DimensionInput({ dimensions, unit, onChange }: Readonly<Props>) {
   const { _ } = useLingui()
   return (
     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
